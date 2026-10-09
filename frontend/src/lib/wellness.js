@@ -19,7 +19,7 @@ export const fmtHoras = (h) => (Number.isInteger(h) ? `${h}` : h.toFixed(1)) + "
 export function estadoDe(score) {
   if (score >= 225) return { nombre: "Excelente", clase: "excelente" };
   if (score >= 150) return { nombre: "Bueno", clase: "bueno" };
-  if (score >= 90) return { nombre: "Moderado", clase: "moderado" };
+  if (score >= 110) return { nombre: "Moderado", clase: "moderado" };
   return { nombre: "Bajo", clase: "bajo" };
 }
 
@@ -59,7 +59,7 @@ export function consejoPara(tipo, score) {
   const base = accionPara(tipo);
   if (score >= 225) return `Vas excelente (${s}/300): mantén tu rutina, funciona. ${base}`;
   if (score >= 150) return `Vas bien (${s}/300): un ajuste te sube más. ${base}`;
-  if (score >= 90) return `Puedes mejorar (${s}/300): ataca tu punto débil. ${base}`;
+  if (score >= 110) return `Puedes mejorar (${s}/300): ataca tu punto débil. ${base}`;
   return `Prioritario (${s}/300): cambia esto hoy mismo. ${base}`;
 }
 
