@@ -2,17 +2,24 @@
 
 Aplicación de bienestar con una API Flask y un frontend estático servido por Nginx.
 
-## Estructura activa
+## Estructura activa (hexagonal / clean)
 
 ```text
 bienestar/
-├── app.py
-├── modelo_bienestar.joblib
-├── requirements.txt
-├── Dockerfile
-├── docker-compose.yml
-├── .dockerignore
-├── bienestar-frontend/
+├── backend/                  # API Flask (hexagonal)
+│   ├── app.py                # entrypoint (gunicorn app:app)
+│   ├── modelo_bienestar.joblib
+│   ├── requirements.txt
+│   ├── Dockerfile
+│   ├── src/
+│   │   ├── domain/           # núcleo: entities.py, ports.py
+│   │   ├── application/      # casos de uso: predict_use_case.py
+│   │   ├── infrastructure/
+│   │   │   ├── ml/           # adaptador sklearn_adapter.py
+│   │   │   └── web/          # adaptador Flask flask_app.py
+│   │   └── config/           # settings.py (PORT, CORS)
+│   └── tests/
+├── frontend/                 # web estática (solo HTML/CSS/JS, sin npm)
 │   ├── index.html
 │   ├── css/
 │   ├── js/
@@ -21,10 +28,10 @@ bienestar/
 │   ├── icon.svg
 │   ├── nginx.conf
 │   └── Dockerfile
+├── docker-compose.yml
+├── .dockerignore
 └── README.md
 ```
-
-Las carpetas `bienestar-frontend (1)` y `bienestar-frontend (2)` se conservaron como copias anteriores; Docker Compose usa la carpeta canónica `bienestar-frontend/`.
 
 ## Ejecución local con Docker
 
@@ -49,6 +56,6 @@ docker compose down
 
 ## Render
 
-Despliega la raíz como servicio Docker para el backend y `bienestar-frontend/` como sitio estático si se desea servirlos por separado. Configura `CORS_ALLOWED_ORIGINS` con el origen HTTPS exacto del sitio y establece la URL pública del backend en los ajustes del frontend.
+Despliega `backend/` como servicio Docker para la API y `frontend/` como sitio estático si se desea servirlos por separado. Configura `CORS_ALLOWED_ORIGINS` con el origen HTTPS exacto del sitio y establece la URL pública del backend en los ajustes del frontend.
 
-El modelo, el pipeline y la lógica de predicción permanecen en el backend sin cambios por esta reorganización.
+El modelo, el pipeline y la lógica de predicción permanecen en el backend sin cambios de contrato (`GET /`, `POST /predict`).

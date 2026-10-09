@@ -1,0 +1,49 @@
+# Directorios de herramientas de agentes IA (config local, no versionar).
+# Las skills se restauran con `npx skills experimental_install` desde skills-lock.json.
+.agents/
+.agent/
+agent/
+.claude/
+.claude.json
+.codex/
+.opencode/
+.cursor/
+.vscode/
+.idea/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+env/
+ENV/
+.pytest_cache/
+.coverage
+htmlcov/
+*.egg-info/
+dist/
+build/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Entorno y secretos (nunca versionar)
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*credentials*.json
+secrets*.json
+.secrets/
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# NOTA: el modelo backend/modelo_bienestar.joblib SÍ se versiona a propósito.

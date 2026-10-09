@@ -6,4 +6,7 @@ __pycache__
 .venv
 venv
 env
-bienestar-frontend*
+backend/__pycache__
+backend/tests
+frontend
+package-lock.json

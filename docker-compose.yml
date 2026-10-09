@@ -1,7 +1,7 @@
 services:
   api_bienestar:
     build:
-      context: .
+      context: ./backend
       dockerfile: Dockerfile
     ports:
       - "5001:5001"
@@ -11,7 +11,7 @@ services:
 
   web_bienestar:
     build:
-      context: ./bienestar-frontend
+      context: ./frontend
       dockerfile: Dockerfile
     ports:
       - "8080:80"
