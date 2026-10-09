@@ -19,7 +19,7 @@ class FakeModel:
     def coef_escalados(self):
         import numpy as np
 
-        return np.array([1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0])
+        return np.array([1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0])
 
     @property
     def intercepto_escalado(self):
@@ -29,13 +29,13 @@ class FakeModel:
     def medias(self):
         import numpy as np
 
-        return np.zeros(8)
+        return np.zeros(9)
 
     @property
     def desviaciones(self):
         import numpy as np
 
-        return np.ones(8)
+        return np.ones(9)
 
 
 def test_use_case_ok():
@@ -45,7 +45,7 @@ def test_use_case_ok():
     assert d["bienestar_estimado"] == 123.46
     assert set(d["coeficientes_escalados"]["coeficientes"]) == {
         "actividad2", "sueno2", "estres2", "actividad", "sueno", "estres",
-        "actividad_estres", "sueno_estres",
+        "actividad_sueno", "actividad_estres", "sueno_estres",
     }
 
 

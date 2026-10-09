@@ -1,6 +1,6 @@
 # Bienestar
 
-Aplicación de bienestar con una API Flask y un frontend estático servido por Nginx.
+Aplicación de bienestar con una API Flask y un frontend React servido por Nginx.
 
 ## Estructura activa (hexagonal / clean)
 
@@ -13,25 +13,29 @@ bienestar/
 │   ├── Dockerfile
 │   ├── src/
 │   │   ├── domain/           # núcleo: entities.py, ports.py
-│   │   ├── application/      # casos de uso: predict_use_case.py
+│   │   ├── application/      # casos de uso: predict, model_info
 │   │   ├── infrastructure/
 │   │   │   ├── ml/           # adaptador sklearn_adapter.py
 │   │   │   └── web/          # adaptador Flask flask_app.py
 │   │   └── config/           # settings.py (PORT, CORS)
 │   └── tests/
-├── frontend/                 # web estática (solo HTML/CSS/JS, sin npm)
-│   ├── index.html
-│   ├── css/
-│   ├── js/
-│   ├── manifest.json
-│   ├── sw.js
-│   ├── icon.svg
-│   ├── nginx.conf
-│   └── Dockerfile
+├── frontend/                 # web React (Vite + router + lucide + lenis)
+│   ├── src/                  # api.js, App.jsx, pages/
+│   ├── nginx.conf            # sirve dist/ y proxea /api/ a Flask
+│   └── Dockerfile            # build node + serve nginx
+├── frontend-backup/          # web estática anterior (solo HTML/CSS/JS)
 ├── docker-compose.yml
 ├── .dockerignore
 └── README.md
 ```
+
+## Endpoints (detrás de `/api/` en Docker)
+
+| Método | Ruta | Respuesta |
+|--------|------|-----------|
+| GET | `/api/health` | `{"status":"ok","service":"bienestar-api"}` |
+| GET | `/api/info` | metadata del modelo (familia, estimador, pasos, coeficientes) |
+| POST | `/api/predict` | `{"actividad","sueno","estres"}` → score + coeficientes |
 
 ## Ejecución local con Docker
 

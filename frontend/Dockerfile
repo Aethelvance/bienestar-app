@@ -1,6 +1,12 @@
+# Build de producción: Vite compila a /dist y nginx lo sirve.
+FROM node:20-alpine AS build
+WORKDIR /web
+COPY package*.json ./
+RUN npm ci
+COPY . .
+RUN npm run build
+
 FROM nginx:alpine
 COPY nginx.conf /etc/nginx/conf.d/default.conf
-COPY index.html manifest.json sw.js icon.svg /usr/share/nginx/html/
-COPY css /usr/share/nginx/html/css
-COPY js /usr/share/nginx/html/js
+COPY --from=build /web/dist /usr/share/nginx/html
 EXPOSE 80

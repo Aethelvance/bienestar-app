@@ -51,6 +51,42 @@ class SklearnBienestarAdapter(BienestarModelPort):
     def desviaciones(self):
         return self._desviaciones
 
+    def describe(self) -> dict:
+        """Lee la metadata directamente del pipeline (nada hardcodeado)."""
+        pasos = self._pipeline.named_steps
+        estimador = type(pasos["model"]).__name__
+        return {
+            "family": self._family(pasos),
+            "estimator": estimador,
+            "pipeline_steps": list(pasos.keys()),
+            "feature_engineering": self._feature_summary(pasos),
+            "n_coefficients": int(len(self._coef)),
+            "input_variables": ["actividad", "sueno", "estres"],
+            "target": "bienestar_estimado",
+        }
+
+    @staticmethod
+    def _family(pasos) -> str:
+        """Familia del modelo según qué piezas trae el pipeline."""
+        feats = pasos.get("features")
+        usa_polinomios = feats is not None and any(
+            type(t).__name__ == "PolynomialFeatures"
+            for _, t, _ in feats.transformers
+        )
+        if usa_polinomios:
+            return "polynomial_regression"
+        return type(pasos["model"]).__name__.lower()
+
+    @staticmethod
+    def _feature_summary(pasos) -> dict:
+        feats = pasos.get("features")
+        if feats is None:
+            return {"transformers": [], "groups": []}
+        return {
+            "transformers": sorted({type(t).__name__ for _, t, _ in feats.transformers}),
+            "groups": [nombre for nombre, _, _ in feats.transformers],
+        }
+
 
 def default_model_path() -> Path:
     """El modelo vive en backend/modelo_bienestar.joblib (junto al Dockerfile)."""

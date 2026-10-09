@@ -2,11 +2,16 @@
 
 from flask import Flask, jsonify, request
 
+from src.application.get_model_info import GetModelInfoUseCase
 from src.application.predict_use_case import PredictBienestarUseCase
 from src.config.settings import Settings
 
 
-def create_app(use_case: PredictBienestarUseCase, settings: Settings) -> Flask:
+def create_app(
+    use_case: PredictBienestarUseCase,
+    settings: Settings,
+    info_use_case: GetModelInfoUseCase,
+) -> Flask:
     app = Flask(__name__)
 
     @app.after_request
@@ -24,6 +29,17 @@ def create_app(use_case: PredictBienestarUseCase, settings: Settings) -> Flask:
         return jsonify(
             {"mensaje": "API del modelo de bienestar funcionando correctamente"}
         )
+
+    @app.route("/health", methods=["GET"])
+    def health():
+        return jsonify({"status": "ok", "service": "bienestar-api"})
+
+    @app.route("/info", methods=["GET"])
+    def info():
+        try:
+            return jsonify(info_use_case.execute())
+        except Exception as exc:  # noqa: BLE001 - contrato JSON estable
+            return jsonify({"error": f"Error interno: {str(exc)}"}), 500
 
     @app.route("/predict", methods=["POST"])
     def predict():

@@ -37,3 +37,8 @@ class BienestarModelPort(ABC):
     @abstractmethod
     def desviaciones(self) -> Any:
         raise NotImplementedError
+
+    @abstractmethod
+    def describe(self) -> dict:
+        """Metadata del modelo en tipos planos (str/int/list, sin sklearn)."""
+        raise NotImplementedError

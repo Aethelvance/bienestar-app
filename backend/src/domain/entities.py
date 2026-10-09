@@ -3,7 +3,10 @@
 from dataclasses import dataclass
 
 
-# Nombres de variables que expone el pipeline (orden del scaler/modelo).
+# Nombres de variables que expone el pipeline, en el orden exacto de
+# ColumnTransformer.get_feature_names_out() (9 coeficientes):
+# actividad², sueno², estres², actividad, sueno, estres,
+# actividad×sueno, actividad×estres, sueno×estres.
 NOMBRES_VARIABLES = [
     "actividad2",
     "sueno2",
@@ -11,6 +14,7 @@ NOMBRES_VARIABLES = [
     "actividad",
     "sueno",
     "estres",
+    "actividad_sueno",
     "actividad_estres",
     "sueno_estres",
 ]
