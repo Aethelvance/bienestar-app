@@ -1,0 +1,10 @@
+{
+  "name": "Bienestar",
+  "short_name": "Bienestar",
+  "description": "Predice y optimiza tu bienestar diario",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#dff0fb",
+  "theme_color": "#1f6fc5",
+  "icons": [{ "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }]
+}

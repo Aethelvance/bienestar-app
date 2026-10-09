@@ -1,0 +1,9 @@
+.git
+.ipynb_checkpoints
+__pycache__
+*.py[cod]
+*.log
+.venv
+venv
+env
+bienestar-frontend*
